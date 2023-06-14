@@ -1,4 +1,3 @@
 package com.ch96.centermap.model
 
-class Item {
-}
+data class Item(var name:String)
