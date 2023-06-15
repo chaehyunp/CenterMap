@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-
+        <variable
+            name="vm"
+            type="com.ch96.centermap.viewmodel.ViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,15 +14,13 @@
         tools:context=".view.SplashActivity">
 
         <ProgressBar
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerInParent="true"/>
-
-        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:text="메인 이동"/>
+            android:layout_marginHorizontal="40dp"
+            android:layout_centerInParent="true"
+            android:progress="@{vm.progress}"
+            android:max="100"
+            style="?android:attr/progressBarStyleHorizontal"/>
 
     </RelativeLayout>
 </layout>
