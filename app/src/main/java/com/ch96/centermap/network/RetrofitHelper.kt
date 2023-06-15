@@ -1,4 +1,4 @@
-package com.ch96.centermap.model
+package com.ch96.centermap.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

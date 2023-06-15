@@ -31,15 +31,16 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
 
         mapFragment.getMapAsync(this)
 
-
-
     }
 
     override fun onMapReady(naverMap: NaverMap) {
-        val marker = Marker()
-        marker.position = LatLng(37.5670135, 126.9783740)
-        marker.map
-        marker.map = naverMap
+//        val marker = Marker()
+//        marker.position = LatLng(37.5670135, 126.9783740)
+//        marker.map
+//        marker.map = naverMap
+
+
+
     }
 
 

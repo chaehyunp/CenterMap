@@ -52,6 +52,9 @@ dependencies {
     // Naver Map SDK
     implementation 'com.naver.maps:map-sdk:3.16.0'
 
+    //Naver Map tedclustering
+    implementation 'io.github.ParkSangGwon:tedclustering-naver:x.y.z'
+
     // Retrofit Library
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.google.code.gson:gson:2.10.1'
