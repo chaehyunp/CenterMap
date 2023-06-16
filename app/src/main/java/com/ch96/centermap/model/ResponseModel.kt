@@ -1,5 +1,9 @@
 package com.ch96.centermap.model
 
+import com.naver.maps.geometry.LatLng
+import ted.gun0912.clustering.clustering.TedClusterItem
+import ted.gun0912.clustering.geometry.TedLatLng
+
 data class ResponseModel(var data:MutableList<CenterData>)
 
 data class CenterData( var id:Int,
@@ -16,3 +20,11 @@ data class CenterData( var id:Int,
                        var org:String,
                        var phoneNumber:String
 )
+
+
+data class NaverItem(var position: LatLng) : TedClusterItem {
+    override fun getTedLatLng(): TedLatLng {
+        return TedLatLng(position.latitude, position.longitude)
+    }
+
+}

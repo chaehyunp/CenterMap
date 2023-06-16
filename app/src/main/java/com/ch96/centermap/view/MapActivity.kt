@@ -8,12 +8,14 @@ import androidx.fragment.app.FragmentManager
 import com.ch96.centermap.R
 import com.ch96.centermap.databinding.ActivityMapBinding
 import com.ch96.centermap.model.ItemModel
+import com.ch96.centermap.model.NaverItem
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import ted.gun0912.clustering.naver.TedNaverClustering
 
 
 class MapActivity : AppCompatActivity(),OnMapReadyCallback {
@@ -40,7 +42,16 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
 //        marker.map = naverMap
 
 
+        TedNaverClustering.with<NaverItem>(this, naverMap)
+            .items(getItems())
+            .make()
 
+    }
+
+    fun getItems():MutableList<NaverItem>{
+        val naverItem:MutableList<NaverItem> = mutableListOf()
+        naverItem.add(0, NaverItem(LatLng(37.5670135, 126.9783740)))
+        return naverItem
     }
 
 
