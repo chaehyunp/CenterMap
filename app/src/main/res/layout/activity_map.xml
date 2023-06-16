@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
 
     </data>
@@ -12,6 +13,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:name="com.naver.maps.map.MapFragment" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/baseline_location_on_24"
+            android:backgroundTint="#0080FF"
+            app:iconTint="@color/white"
+            android:textColor="@color/white"
+            android:text="현위치로"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"/>
 
     </RelativeLayout>
 </layout>
