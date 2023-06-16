@@ -4,6 +4,13 @@ import com.naver.maps.geometry.LatLng
 import ted.gun0912.clustering.clustering.TedClusterItem
 import ted.gun0912.clustering.geometry.TedLatLng
 
+class GV{
+    // API로 받아올 위치 정보 배열 - 전역변수
+    companion object{
+        var latLng:MutableList<LatLng> = mutableListOf()
+    }
+}
+
 data class ResponseModel(var data:MutableList<CenterData>)
 
 data class CenterData( var id:Int,
