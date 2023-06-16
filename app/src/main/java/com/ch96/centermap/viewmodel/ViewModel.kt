@@ -19,29 +19,31 @@ import retrofit2.Response
 
 class ViewModel(context: Context) {
 
-    //view와 연결할 model 역할 클래스 참조변수
+    // view와 연결할 model 참조변수
     var itemModel = ItemModel(context)
 
-    //API 데이터 불러오기
+    // API 데이터 불러오기 (page index 1 - 10 perPage 10)
     fun loadData(){
-        val retrofit = RetrofitHelper.getRetrofitInstanse(itemModel.baseUrl)
-        retrofit.create(RetrofitApiService::class.java).searchCenter(10,10,itemModel.serviceKey).enqueue(object:
-            Callback<ResponseModel> {
-            override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                var res = response.body()!!
+        for (i in 1 until 11) {
+            val retrofit = RetrofitHelper.getRetrofitInstanse(itemModel.baseUrl)
+            retrofit.create(RetrofitApiService::class.java).searchCenter(i,10,itemModel.serviceKey)
+                .enqueue(object: Callback<ResponseModel> {
+                    override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
+                        var res = response.body()!!
 
-                for (i in 0 until res.data.size ) {
-                    GV.latLng.add(LatLng(res.data[i].lat.toDouble(),res.data[i].lng.toDouble()))
-                    Log.i("double", "${GV.latLng}")
-                }
-            }
-            override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-            }
+                        for (k in 0 until res.data.size ) {
+                            GV.latLng.add(LatLng(res.data[k].lat.toDouble(),res.data[k].lng.toDouble()))
+                            Log.i("double", "${GV.latLng}")
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                    }
+                })
+        }
 
-        })
     }
 
-    // 전역변수에 있는 LatLng NaverItem 객체 리턴
+    // 전역변수에 있는 LatLng NaverItem 객체 리턴 for clustering(marker)
     fun getItems():MutableList<NaverItem>{
         val naverItem:MutableList<NaverItem> = mutableListOf()
         for (i in 0 until GV.latLng.size) {
