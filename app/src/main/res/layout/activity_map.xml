@@ -15,6 +15,7 @@
             android:name="com.naver.maps.map.MapFragment" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:icon="@drawable/baseline_location_on_24"

@@ -1,11 +1,21 @@
 package com.ch96.centermap.viewmodel
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PointF
+import android.location.Location
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ch96.centermap.R
 import com.ch96.centermap.model.CenterData
 import com.ch96.centermap.model.GV
 import com.ch96.centermap.model.ItemModel
@@ -13,6 +23,12 @@ import com.ch96.centermap.model.NaverItem
 import com.ch96.centermap.model.ResponseModel
 import com.ch96.centermap.network.RetrofitApiService
 import com.ch96.centermap.network.RetrofitHelper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -72,17 +88,19 @@ class ViewModel(context: Context) {
 
     }
 
-
+    // 내위치 오버레이
+    fun setOverlay(naverMap: NaverMap, lat:Double, lng:Double){
+        val locationOverlay = naverMap.locationOverlay
+        locationOverlay.isVisible = true
+        locationOverlay.position = LatLng(lat, lng)
+    }
 
     // 마커 표시 메소드
     fun setMarker(context: Context, naverMap:NaverMap, marker: Marker, centerData: CenterData):Overlay.OnClickListener{
 
-        // 아이콘 색 - centerType
         marker.icon = MarkerIcons.GREEN
         if (centerData.centerType != "지역") marker.icon = MarkerIcons.RED
-        // 마커 위치
         marker.setPosition(LatLng(centerData.lat.toDouble(), centerData.lng.toDouble()))
-        // 마커 표시
         marker.setMap(naverMap)
 
         val infoWindow = InfoWindow()
@@ -114,11 +132,8 @@ class ViewModel(context: Context) {
                 .animate(CameraAnimation.Easing)
             naverMap.moveCamera(cameraUpdate)
 
-
             true
         }
-
-
 
         return listener
     }
