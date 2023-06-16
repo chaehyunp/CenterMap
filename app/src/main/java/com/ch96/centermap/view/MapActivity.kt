@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import com.ch96.centermap.R
 import com.ch96.centermap.databinding.ActivityMapBinding
+import com.ch96.centermap.model.GV
 import com.ch96.centermap.model.ItemModel
 import com.ch96.centermap.model.NaverItem
 import com.ch96.centermap.viewmodel.ViewModel
@@ -15,6 +16,7 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import ted.gun0912.clustering.naver.TedNaverClustering
 
@@ -37,22 +39,28 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
     }
 
     override fun onMapReady(naverMap: NaverMap) {
-//        val marker = Marker()
-//        marker.position = LatLng(37.5670135, 126.9783740)
-//        marker.map
-//        marker.map = naverMap
         
         // ViewModel 참조변수
         val vm = ViewModel(this)
 
         // 마커 라이브러리 이용
-        TedNaverClustering.with<NaverItem>(this, naverMap)
-            .items(vm.getItems())
-            .make()
+//        TedNaverClustering.with<NaverItem>(this, naverMap)
+//            .items(vm.getItems())
+//            .make()
+
+        // 마커 생성
+        for (p in 0 until GV.latLng.size) {
+
+            var marker = Marker()
+            var listner = vm.setMarker(this,
+                                 naverMap,
+                                 marker,
+                                 GV.centerDatas[p])
+
+            marker.onClickListener = listner
+        }
 
     }
-
-
 
 
 }

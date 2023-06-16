@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
         // ViewModel 참조변수
         val vm = ViewModel(this)
 
-        // API 데이터 불러오기
+        // API 데이터 불러오기, - 비동기로 작업, 끝나면 Map 화면으로 이동
         vm.loadData()
         
         // progressbar 2초 100% 로 수정

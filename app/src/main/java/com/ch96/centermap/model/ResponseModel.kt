@@ -8,6 +8,7 @@ class GV{
     // API로 받아올 위치 정보 배열 - 전역변수
     companion object{
         var latLng:MutableList<LatLng> = mutableListOf()
+        var centerDatas:MutableList<CenterData> = mutableListOf()
     }
 }
 
@@ -23,6 +24,7 @@ data class CenterData( var id:Int,
                        var lat:String,
                        var lng:String,
                        var createdAt:String,
+                       var updatedAt:String,
                        var centerType:String,
                        var org:String,
                        var phoneNumber:String
