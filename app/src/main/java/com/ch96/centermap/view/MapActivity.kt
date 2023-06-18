@@ -23,7 +23,6 @@ import com.ch96.centermap.R
 import com.ch96.centermap.databinding.ActivityMapBinding
 import com.ch96.centermap.model.GV
 import com.ch96.centermap.model.ItemModel
-import com.ch96.centermap.model.NaverItem
 import com.ch96.centermap.viewmodel.ViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback

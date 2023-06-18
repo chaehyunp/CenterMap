@@ -27,13 +27,4 @@ data class CenterData( var id:Int,
                        var updatedAt:String,
                        var centerType:String,
                        var org:String,
-                       var phoneNumber:String
-)
-
-
-data class NaverItem(var position: LatLng) : TedClusterItem {
-    override fun getTedLatLng(): TedLatLng {
-        return TedLatLng(position.latitude, position.longitude)
-    }
-
-}
+                       var phoneNumber:String)
