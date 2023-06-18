@@ -61,6 +61,7 @@ class ViewModel(context: Context) {
 
 
     // 프로그레스바 진행
+    var progress = 0
     fun updateProgressBar(context:Context,progressBar: ProgressBar) {
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
@@ -68,7 +69,6 @@ class ViewModel(context: Context) {
             // API 데이터 불러오기
             loadData()
 
-            var progress = 0
             while (progress <= 100) {
 
                 if (progress == 80 && !isDataSaved()) {

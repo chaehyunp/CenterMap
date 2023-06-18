@@ -5,8 +5,8 @@ import ted.gun0912.clustering.clustering.TedClusterItem
 import ted.gun0912.clustering.geometry.TedLatLng
 
 class GV{
-    // API로 받아올 위치 정보 배열 - 전역변수
     companion object{
+        // API로 받아올 위치 정보 배열 - 전역변수
         var latLng:MutableList<LatLng> = mutableListOf()
         var centerDatas:MutableList<CenterData> = mutableListOf()
     }

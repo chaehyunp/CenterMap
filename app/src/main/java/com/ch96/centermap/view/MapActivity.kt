@@ -33,13 +33,17 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
+import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.NaverMapOptions
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
+import com.naver.maps.map.util.FusedLocationSource
 import ted.gun0912.clustering.naver.TedNaverClustering
 
 
@@ -53,6 +57,7 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
     var myLng = 126.9783740
     var myLocation: Location? = null
     val providerClient : FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +82,6 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
 
         Log.i("loca_oncreate_afterfm", "$myLat,$myLng")
 
-
     }
 
     //퍼미션 결과 받아오기
@@ -90,7 +94,6 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
             }
         }
     )
-
 
     //위치 요청
     private fun requestMyLocation() {
@@ -126,10 +129,17 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
 
     override fun onMapReady(naverMap: NaverMap) {
 
+        val cameraPosition = CameraPosition(
+            LatLng(myLat, myLng),
+            12.0 // 줌 레벨
+        )
+        naverMap.cameraPosition = cameraPosition
+
+
         // 마커 생성
         for (p in 0 until GV.latLng.size) {
-            var marker = Marker()
-            var listner = vm.setMarker(this,naverMap,marker,GV.centerDatas[p])
+            val marker = Marker()
+            val listner = vm.setMarker(this,naverMap,marker,GV.centerDatas[p])
             marker.onClickListener = listner
         }
 
@@ -140,8 +150,11 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
             Log.i("loca_clicked", "$myLat,$myLng")
         }
 
-        vm.updateCamera(naverMap,myLat,myLng)
+    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
 

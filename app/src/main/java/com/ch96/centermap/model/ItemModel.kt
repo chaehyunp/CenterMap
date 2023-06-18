@@ -16,6 +16,4 @@ class ItemModel constructor(val context: Context) {
     var baseUrl = "https://api.odcloud.kr/api/15077586/v1/"
     var serviceKey = "bNmSjmL3NWL/mAmsQV0SyDT+8DCdZckhVg5/tSsmJHa47eBZBE+aFvCHYxeM1Dsz2FcgQ64elqYL3mr6GUyjOg=="
 
-
-
 }

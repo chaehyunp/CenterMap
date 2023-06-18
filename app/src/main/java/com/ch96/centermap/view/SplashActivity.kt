@@ -30,13 +30,9 @@ class SplashActivity : AppCompatActivity() {
         val vm = ViewModel(this)
 
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-        vm.updateProgressBar(this, progressBar)
+        vm.updateProgressBar(this,progressBar)
 
     }
-
-
-
-
 
 
 }
