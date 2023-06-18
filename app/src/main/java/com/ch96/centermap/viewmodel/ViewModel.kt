@@ -17,8 +17,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle.Event
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.ch96.centermap.R
 import com.ch96.centermap.model.CenterData
 import com.ch96.centermap.model.GV
@@ -59,16 +61,17 @@ class ViewModel(context: Context) {
     // view와 연결할 model 참조변수
     var itemModel = ItemModel(context)
 
+    private val _isProgressBarComplete = MutableLiveData<Boolean>()
+    val isProgressBarComplete: LiveData<Boolean> get() = _isProgressBarComplete
 
     // 프로그레스바 진행
-    var progress = 0
-    fun updateProgressBar(context:Context,progressBar: ProgressBar) {
+    fun updateProgressBar(progressBar: ProgressBar) {
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
 
             // API 데이터 불러오기
             loadData()
-
+            var progress = 0
             while (progress <= 100) {
 
                 if (progress == 80 && !isDataSaved()) {
@@ -80,8 +83,7 @@ class ViewModel(context: Context) {
                     progress++
                 }
             }
-            // 화면이동
-            ContextCompat.startActivity(context, Intent(context, MapActivity::class.java), Bundle())
+            _isProgressBarComplete.value = true
         }
     }
 
