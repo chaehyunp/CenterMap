@@ -12,10 +12,15 @@ import com.ch96.centermap.databinding.ActivitySplashBinding
 import com.ch96.centermap.viewmodel.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,15 +29,14 @@ class SplashActivity : AppCompatActivity() {
         // ViewModel 참조변수
         val vm = ViewModel(this)
 
-        // API 데이터 불러오기, - 비동기로 작업, 끝나면 Map 화면으로 이동
-        vm.loadData()
-        
-        // progressbar 2초 100% 로 수정
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MapActivity::class.java))
-        }, 2000)
-
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        vm.updateProgressBar(this, progressBar)
 
     }
+
+
+
+
+
 
 }
