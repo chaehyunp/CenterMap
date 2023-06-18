@@ -45,10 +45,26 @@ import ted.gun0912.clustering.naver.TedNaverClustering
 
 class MapActivity : AppCompatActivity(),OnMapReadyCallback {
 
+    // ViewModel 참조변수
+    val vm = ViewModel(this)
+
+    // 내위치 정보
+    var myLat = 37.5670135
+    var myLng = 126.9783740
+    var myLocation: Location? = null
+    val providerClient : FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<ActivityMapBinding>(this, R.layout.activity_map)
 
+        //위치정보 제공 동적퍼미션
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
+            permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        else if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
+            permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+        else requestMyLocation()
+        Log.i("loca_oncreate_afterpermission", "$myLat,$myLng")
 
         // 지도 객체 생성
         var fm = supportFragmentManager
@@ -59,20 +75,10 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
 
         mapFragment.getMapAsync(this)
 
-        //위치정보 제공 동적퍼미션
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
-            permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        else if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
-            permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-        else requestMyLocation()
+        Log.i("loca_oncreate_afterfm", "$myLat,$myLng")
+
 
     }
-
-    // 내위치 정보
-    var myLat = 37.5670135
-    var myLng = 126.9783740
-    var myLocation: Location? = null
-    val providerClient : FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
 
     //퍼미션 결과 받아오기
     val permissionLauncher: ActivityResultLauncher<String> = registerForActivityResult(
@@ -84,6 +90,7 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
             }
         }
     )
+
 
     //위치 요청
     private fun requestMyLocation() {
@@ -98,6 +105,8 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) return
 
         providerClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
+        Log.i("loca_requestmethod", "$myLat,$myLng")
+
     }
 
     //위치 검색 콜백 객체
@@ -112,47 +121,28 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
 
             //위치 탐색 완료, 실시간 업데이트 종료
             providerClient.removeLocationUpdates(this)
-
-            Log.i("what_location", "$myLocation")
         }
     }
 
     override fun onMapReady(naverMap: NaverMap) {
-        
-        // ViewModel 참조변수
-        val vm = ViewModel(this)
-
-        // 마커 라이브러리 이용
-//        TedNaverClustering.with<NaverItem>(this, naverMap)
-//            .items(vm.getItems())
-//            .make()
 
         // 마커 생성
         for (p in 0 until GV.latLng.size) {
-
             var marker = Marker()
-            var listner = vm.setMarker(this,
-                                 naverMap,
-                                 marker,
-                                 GV.centerDatas[p])
-
+            var listner = vm.setMarker(this,naverMap,marker,GV.centerDatas[p])
             marker.onClickListener = listner
         }
 
+        // [ 내위치로 ]버튼 클릭 이벤트
         val toMyLocation = findViewById<Button>(R.id.fab)
         toMyLocation.setOnClickListener{
-            // 내위치로 카메라 이동
-            val cameraUpdate = CameraUpdate
-                .scrollTo(LatLng(myLat, myLng))
-                .animate(CameraAnimation.Easing)
-            naverMap.moveCamera(cameraUpdate)
-            
-            // 내위치 오버레이
-            vm.setOverlay(naverMap,myLat,myLng)
+            vm.setMyLocation(naverMap,myLat,myLng)
+            Log.i("loca_clicked", "$myLat,$myLng")
         }
 
-
+        vm.updateCamera(naverMap,myLat,myLng)
 
     }
+
 
 }
